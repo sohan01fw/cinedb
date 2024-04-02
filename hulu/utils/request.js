@@ -1,4 +1,4 @@
-const API_KEY = process.env.API_KEY;
+const API_KEY = process.env.NEXT_API_CINEDB_KEY;
 
 const requests = {
   Trending: {
