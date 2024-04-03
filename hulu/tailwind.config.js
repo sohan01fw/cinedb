@@ -11,8 +11,12 @@ module.exports = {
   theme: {
     extend: {},
   },
+  daisyui: {
+    themes: [],
+  },
   plugins: [
     require("tailwind-scrollbar-hide"),
+    require("daisyui"),
     // ...
   ],
 };
