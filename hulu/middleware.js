@@ -1,22 +1,13 @@
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { NextResponse } from "next/server";
 import { app } from "./utils/config/firebase";
 
-export function middleware(request) {
+export async function middleware(request) {
   let url = process.env.NEXT_PUBLIC_URL;
-  const { currentUser } = getAuth(app);
-  console.log(currentUser);
-
-  if (!currentUser) {
-    // If the user is not logged in, redirect them to the login page
-    return NextResponse.redirect(`${url}/login`);
-  }
-
-  // If the user is logged in, continue to the requested page
-  return NextResponse.next();
+  const auth = getAuth();
 }
 
-//to protect route u have to mention route here that u wanna protect.
+// To protect a route, mention the route here that you want to protect.
 export const config = {
   matcher: "/genre/:id*",
 };

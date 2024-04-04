@@ -10,39 +10,55 @@ const requests = {
   },
   Action: {
     title: "Action",
-    url: `/discover/movie?api_key=${API_KEY}&with_genres=28`,
+    genreId: "28",
   },
   Comedy: {
     title: "Comedy",
-    url: `/discover/movie?api_key=${API_KEY}&with_genres=35`,
+    genreId: "35",
   },
   Horror: {
     title: "Horror",
-    url: `/discover/movie?api_key=${API_KEY}&with_genres=27`,
+    genreId: "27",
   },
   Romance: {
     title: "Romance",
-    url: `/discover/movie?api_key=${API_KEY}&with_genres=10749`,
+    genreId: "10749",
   },
   Mystery: {
     title: "Mystery",
-    url: `/discover/movie?api_key=${API_KEY}&with_genres=9648`,
+    genreId: "9648",
   },
   SciFi: {
     title: "Sci-Fi",
-    url: `/discover/movie?api_key=${API_KEY}&with_genres=878`,
+    genreId: "878",
+  },
+  Family: {
+    title: "Family",
+    genreId: "10751",
   },
   Western: {
     title: "Western",
-    url: `/discover/movie?api_key=${API_KEY}&with_genres=37`,
+    genreId: "37",
   },
   Animation: {
     title: "Animation",
-    url: `/discover/movie?api_key=${API_KEY}&with_genres=16`,
+    genreId: "16",
   },
   TV: {
     title: "TV",
-    url: `/discover/movie?api_key=${API_KEY}&with_genres=10770`,
+    genreId: "10770",
+  },
+  Thriller: {
+    title: "Thriller",
+    genreId: " 53",
+  },
+  War: {
+    title: "War",
+    genreId: " 10752",
+  },
+  Western: {
+    title: "Western",
+    genreId: "37",
   },
 };
 

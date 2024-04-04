@@ -1,10 +1,9 @@
 import Thumbnails from "./Thumbnails";
-
 const Movies = ({ datas }) => {
   return (
     <>
       <div>
-        <Thumbnails results={datas} />;
+        <Thumbnails results={datas} />
       </div>
     </>
   );

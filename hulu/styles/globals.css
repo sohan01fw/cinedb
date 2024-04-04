@@ -7,3 +7,23 @@
     @apply bg-[#16213E] text-gray-300;
   }
 } */
+@layer components {
+  .gradient-shadow {
+    --tw-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+      0 1px 2px -1px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
+      var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  }
+  .gradient-shadow::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(to right, #6366f1, #83a8e6, #10b981);
+    filter: blur(120px);
+    opacity: 0.2;
+  }
+}

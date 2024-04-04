@@ -15,7 +15,6 @@ export default function Login() {
   };
   const handleSignIn = async () => {
     const result = await signInWithGoogle();
-    console.log(result);
     if (result) {
       router.push("/");
     }

@@ -6,23 +6,20 @@ import requests, { API_KEY } from "../utils/request";
 import Movies from "../Components/Movies";
 import { useQuery } from "@tanstack/react-query";
 import { getAuth } from "firebase/auth";
+import Link from "next/link";
+
 import axios from "axios";
+import { auth } from "../utils/config/firebase";
 /* &sort_by=vote_average.desc ->> for top_rated */
 /* &sort_by=popularity.desc ->> for popularity */
-export default function Home() {
+export default function Home({ resData }) {
   const { isPending, isError, data, error } = useQuery({
     queryKey: ["cineData"],
-    queryFn: async () => {
-      const Tmdbdata = await axios
-        .get
-        /* `https://api.themoviedb.org/3/discover/movie?with_genres=27&api_key=${API_KEY}&language=en-US` */
-        /* `https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY}`  for trending weekly*/
-        ();
-
-      return Tmdbdata;
+    queryFn: () => {
+      return resData;
     },
   });
-  if (isPending) return console.log("pending....");
+  if (isPending) return <div>loading...</div>;
   console.log(data);
   return (
     <div className="">
@@ -30,18 +27,19 @@ export default function Home() {
         <title>Hulu</title>
       </Head>
       <Header />
-      {/*       <Movies datas={data.results} />
-       */}
+
+      <Movies datas={data.results} />
     </div>
   );
 }
-export async function getServerSideProps(context) {
-  const genre = context.query.genre;
+export async function getServerSideProps({ params }) {
+  const Tmdbdata = await axios.get(
+    `https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY}`
+  );
+
+  /* `https://api.themoviedb.org/3/discover/movie?with_genres=27&api_key=${API_KEY}&language=en-US` */
 
   return {
-    props: {},
-    /*  props: {
-        data: getdata,
-      }, // will be passed to the page component as props */
+    props: { resData: Tmdbdata.data },
   };
 }
