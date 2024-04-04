@@ -12,7 +12,7 @@ module.exports = {
     extend: {},
   },
   daisyui: {
-    themes: [],
+    themes: ["synthwave"],
   },
   plugins: [
     require("tailwind-scrollbar-hide"),

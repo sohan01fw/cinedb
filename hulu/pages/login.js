@@ -23,7 +23,7 @@ export default function Login() {
   return (
     <>
       <button
-        className="btn bg-gray-500"
+        className="btn "
         onClick={() => {
           handleSignIn();
         }}
