@@ -6,24 +6,26 @@ import requests, { API_KEY } from "../utils/request";
 import Movies from "../Components/Movies";
 import { useQuery } from "@tanstack/react-query";
 import { getAuth } from "firebase/auth";
+import axios from "axios";
+/* &sort_by=vote_average.desc ->> for top_rated */
+/* &sort_by=popularity.desc ->> for popularity */
 export default function Home() {
-  const { currentUser } = getAuth();
-  console.log(currentUser);
-  /*   const { isPending, isError, data, error } = useQuery({
+  const { isPending, isError, data, error } = useQuery({
     queryKey: ["cineData"],
     queryFn: async () => {
-      const Tmdbdata = await fetch(
-        `https://api.themoviedb.org/3/trending/all/week?api_key=${API_KEY}&language=en-US`
-      );
+      const Tmdbdata = await axios
+        .get
+        /* `https://api.themoviedb.org/3/discover/movie?with_genres=27&api_key=${API_KEY}&language=en-US` */
+        /* `https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY}`  for trending weekly*/
+        ();
 
-      const getdata = await Tmdbdata.json();
-      return getdata;
+      return Tmdbdata;
     },
   });
-  if (isPending) return console.log("pending/.//");
-  console.log(data); */
+  if (isPending) return console.log("pending....");
+  console.log(data);
   return (
-    <div className={styles.container}>
+    <div className="">
       <Head>
         <title>Hulu</title>
       </Head>
