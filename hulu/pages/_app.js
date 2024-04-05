@@ -8,8 +8,10 @@ import {
   QueryClientProvider,
   useQuery,
 } from "@tanstack/react-query";
+import useToken from "../utils/hooks/useToken";
 
 function MyApp({ Component, pageProps }) {
+  useToken();
   const queryClient = new QueryClient();
 
   return (

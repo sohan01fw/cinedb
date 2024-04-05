@@ -1,4 +1,4 @@
-import { GoogleAuthProvider } from "firebase/auth";
+import { GoogleAuthProvider, onIdTokenChanged } from "firebase/auth";
 import { auth, provider, signInWithPopup, signOut } from "./config/firebase";
 
 export const signInWithGoogle = async () => {
@@ -6,9 +6,10 @@ export const signInWithGoogle = async () => {
     const result = await signInWithPopup(auth, provider);
     const credential = GoogleAuthProvider.credentialFromResult(result);
     const token = credential?.accessToken;
+
     // The signed-in user info.
     const user = result?.user;
-    return token;
+    return;
   } catch (error) {
     const errorCode = error?.code;
     const errorMessage = error?.message;

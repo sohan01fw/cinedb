@@ -13,6 +13,9 @@ import { auth } from "../utils/config/firebase";
 /* &sort_by=vote_average.desc ->> for top_rated */
 /* &sort_by=popularity.desc ->> for popularity */
 export default function Home({ resData }) {
+  const { currentUser } = auth;
+  console.log(currentUser);
+
   const { isPending, isError, data, error } = useQuery({
     queryKey: ["cineData"],
     queryFn: () => {
