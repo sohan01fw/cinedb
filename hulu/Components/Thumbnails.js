@@ -13,16 +13,6 @@ const Thumbnails = ({ result }) => {
           return (
             <Link href={`/genre/trending/${result?.id}`} key={index}>
               <div
-                onMouseEnter={() => {
-                  // Prefetch the movie data when the user hovers over the link
-                  queryClient.prefetchQuery(
-                    ["movieData", result.id],
-                    async () =>
-                      await axios.get(
-                        `https://api.themoviedb.org/3/movie/${result.id}?api_key=${API_KEY}`
-                      )
-                  );
-                }}
                 key={result.id}
                 className=" w-80 md:w-60 lg:w-80 group cursor-pointer m-5 transition duration-200 ease-in transform
     lg:hover:scale-105 hover:z-50 lg:p-2  hover:gradient-shadow"
