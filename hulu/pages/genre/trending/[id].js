@@ -11,34 +11,26 @@ const Page = ({ movieData }) => {
   const { isPending, isError, data, error } = useQuery({
     queryKey: ["movieData"],
     queryFn: async () => {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       return movieData;
     },
   });
 
-  if (isPending) return <div>loading...</div>;
-
   return (
     <>
       <Header />
-      <MoviesDetails data={data} />
+      {isPending ? <div>Loading...</div> : <MoviesDetails data={data} />}
     </>
   );
 };
 
 export default Page;
 
-export async function getStaticPaths() {
-  return {
-    paths: [],
-    fallback: "blocking",
-    // If the page with the userId is
-    // not found, returns 404 page
-  };
-}
+export async function getServerSideProps(context) {
+  const { id } = context.query;
 
-export async function getStaticProps({ params }) {
   const movie = await axios.get(
-    `https://api.themoviedb.org/3/movie/${params.id}?api_key=${API_KEY}`
+    `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`
   );
   const x = movie?.data;
   return {

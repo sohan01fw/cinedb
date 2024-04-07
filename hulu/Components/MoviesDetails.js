@@ -2,7 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React from "react";
-import { API_KEY } from "../utils/request";
+import {
+  BookmarkIcon,
+  HeartIcon,
+  PlayCircleIcon,
+  PlayIcon,
+  StarIcon,
+} from "@heroicons/react/24/outline";
 
 const MoviesDetails = ({ data }) => {
   console.log(data);
@@ -11,8 +17,8 @@ const MoviesDetails = ({ data }) => {
 
   const BASE_URL = "https://image.tmdb.org/t/p/w300_and_h450_face/";
   return (
-    <div className="border border-white mt-10 h-[27rem] flex justify-center pt-14   ">
-      <div className="border border-green-400 w-[12rem] h-[18rem]   ">
+    <div className=" mt-10 h-[27rem] w-full flex justify-center pt-14 md:pt-8 ">
+      <div className="  w-[12rem] md:w-[15rem] h-[18rem] md:h-[22.5rem] mr-3  ">
         <Image
           layout="responsive"
           className="object-contain"
@@ -25,16 +31,18 @@ const MoviesDetails = ({ data }) => {
           priority
         />
       </div>
-      <div className=" border border-white h-[18rem] p-1 ">
+      <div className=" overflow-scroll  md:w-[59rem] md:h-[23rem]  h-[18rem] p-1 ">
         <div className="title flex ">
-          <h1 className="font-bold text-xl">{data.original_title}</h1>
-          <div className="badge badge-neutral font-semibold">
+          <h1 className="font-bold text-xl md:text-3xl">
+            {data.original_title}
+          </h1>
+          <div className=" font-semibold mt-[-13px] pl-1">
             <p className=" mt-3 font-bold text-xl text-gray-400">
               ({data.release_date.slice(0, 4)})
             </p>
           </div>
         </div>
-        <div className=" desc_genre  flex">
+        <div className=" desc_genre  flex text-sm text-gray-400">
           <div className="whitespace-nowrap   flex ">
             {data?.genres.map((genre, index) => (
               <div key={index} className="font-semibold">
@@ -44,24 +52,110 @@ const MoviesDetails = ({ data }) => {
               </div>
             ))}
           </div>
-          <h2 className="font-semibold">.{data.runtime}hrs</h2>
+          <h2 className="font-semibold text-sm">({data.runtime}min)</h2>
         </div>
         <div>
-          <div className="badge badge-neutral flex font-semibold">
-            <h1>Rating:</h1>
-            <p className="font-bold ">{data.vote_average}</p>
+          <div className=" flex font-semibold">
+            <h1>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="yellow"
+                className="w-6 h-6 fill-yellow-400 hover:cursor-pointer"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
+                />
+              </svg>
+            </h1>
+            <p className="font-bold ">({data.vote_average.toFixed(1)})/10</p>
           </div>
         </div>
-        <div></div>
-        <div className="desc">
-          <div className="badge badge-neutral">
+        <div className="mt-3 flex justify-between w-44 ml-2">
+          <div>
+            <div className="">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6 fill-red-500 text-lg hover:cursor-pointer "
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                />
+              </svg>
+            </div>
+          </div>
+          <div className="">
+            <div className="flex ">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-5 h-5 mt-[0.15rem] hover:cursor-pointer"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z"
+                />
+              </svg>
+            </div>
+          </div>
+          <div className=" flex hover:cursor-pointer mt-[-2px]  ">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              className="w-8 h-8 mt-[-1.5px] mr-[0.4rem]"
+            >
+              <defs>
+                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="10%" stopColor="#6366F1" />
+                  <stop offset="30%" stopColor="#60A5FA" />
+                  <stop offset="90%" stopColor="#10B981" />
+                </linearGradient>
+              </defs>
+              <path
+                fill="url(#gradient)"
+                fillRule="evenodd"
+                d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm14.024-.983a1.125 1.125 0 0 1 0 1.966l-5.603 3.113A1.125 1.125 0 0 1 9 15.113V8.887c0-.857.921-1.4 1.671-.983l5.603 3.113Z"
+                clipRule="evenodd"
+              />
+            </svg>
+
+            <h4 className="font-semibold whitespace-nowrap w-full bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% text-transparent bg-clip-text  ">
+              play trailer
+            </h4>
+          </div>
+        </div>
+        <div className="desc  mt-5">
+          <div className="">
             <h2 className="text-gray-500 font-bold italic">{data.tagline}</h2>
           </div>
-          <div className=" border border-white flex flex-col flex-grow  break-words ">
-            <h1 className="  font-bold text-lg">Overview</h1>
-            <p className="  border border-white  overflow-scroll   w-60 h-32">
+          <div className="  flex flex-col flex-grow  break-words ">
+            <h1 className=" font-bold text-xl ">Overview</h1>
+            <p className=" overview  overflow-scroll w-60 md:w-full ">
               {data.overview}
             </p>
+          </div>
+        </div>
+        <div className="flex justify-between mt-3 md:mt-10">
+          <div className="font-bold hover:cursor-pointer text-gray-400 hover:bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% hover:text-transparent hover:bg-clip-text">
+            status<h3>{data.status}</h3>
+          </div>
+          <div className="font-bold hover:cursor-pointer text-gray-400 hover:bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% hover:text-transparent hover:bg-clip-text">
+            Budget<h3>${data.budget}</h3>
+          </div>
+          <div className="font-bold hover:cursor-pointer text-gray-400 hover:bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% hover:text-transparent hover:bg-clip-text">
+            Revenue<h3>${data.revenue}</h3>
           </div>
         </div>
       </div>

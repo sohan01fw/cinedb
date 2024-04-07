@@ -3,10 +3,23 @@ import Header from "../Components/Header";
 import Movies from "../Components/Movies";
 import axios from "axios";
 import { API_KEY } from "../utils/request";
+import { useQuery } from "@tanstack/react-query";
 
 /* &sort_by=vote_average.desc ->> for top_rated */
 /* &sort_by=popularity.desc ->> for popularity */
 export default function Home({ resData }) {
+  const { isPending, isError, data, error } = useQuery({
+    queryKey: ["cineData"],
+    queryFn: async () => {
+      // Simulate a delay of 2 seconds
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      return resData;
+    },
+  });
+
+  if (isError) {
+    return <div>Error occur while fetching check your internet</div>;
+  }
   return (
     <>
       <div className="">
@@ -14,7 +27,7 @@ export default function Home({ resData }) {
           <title>Hulu</title>
         </Head>
         <Header />
-        <Movies resData={resData} />
+        {isPending ? <div>loading....</div> : <Movies resData={resData} />}
       </div>
     </>
   );
