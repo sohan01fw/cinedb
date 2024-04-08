@@ -1,10 +1,6 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-  api: {
-    externalResolver: true,
-  },
-  runtime: "nodejs",
   reactStrictMode: true,
   swcMinify: true,
   images: {
