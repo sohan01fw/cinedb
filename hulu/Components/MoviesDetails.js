@@ -1,15 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import {
-  BookmarkIcon,
-  HeartIcon,
-  PlayCircleIcon,
-  PlayIcon,
-  StarIcon,
-} from "@heroicons/react/24/outline";
-import Trailer from "./youtube/Trailer";
+import React, { useState } from "react";
+
 import YouTube from "react-youtube";
 
 const MoviesDetails = ({ data }) => {
@@ -30,6 +22,7 @@ const MoviesDetails = ({ data }) => {
         <Image
           layout="responsive"
           className="object-contain"
+          alt="image"
           src={
             `${BASE_URL}${data.backdrop_path || data.poster_path}` ||
             `${data.poster_path}`

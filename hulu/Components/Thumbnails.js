@@ -1,8 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
-import { API_KEY } from "../utils/request";
-import axios from "axios";
+
 const Thumbnails = ({ result }) => {
   const BASE_URL = "https://image.tmdb.org/t/p/original/";
   const queryClient = useQueryClient();
@@ -26,6 +25,7 @@ const Thumbnails = ({ result }) => {
                   }
                   height={1080}
                   width={1920}
+                  alt="image"
                   priority
                 />
 

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import HeaderItem from "./HeaderItem";
 import { HomeIcon } from "@heroicons/react/24/outline";
 import { BoltIcon } from "@heroicons/react/24/outline";
