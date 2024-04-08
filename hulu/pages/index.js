@@ -24,7 +24,7 @@ export default function Home({ resData }) {
     <>
       <div className="">
         <Head>
-          <title>Hulu</title>
+          <title>Cinedb</title>
         </Head>
         <Header />
         {isPending ? <div>loading....</div> : <Movies resData={resData} />}

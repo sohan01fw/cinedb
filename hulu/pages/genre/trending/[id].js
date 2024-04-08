@@ -4,8 +4,6 @@ import { API_KEY } from "../../../utils/request";
 import MoviesDetails from "../../../Components/MoviesDetails";
 import Header from "../../../Components/Header";
 import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/router";
-import fetchMoviesDetails from "../../../utils/Actions/fetchMoviesDetails";
 
 const Page = ({ movieData }) => {
   const { isPending, isError, data, error } = useQuery({
@@ -30,7 +28,7 @@ export async function getServerSideProps(context) {
   const { id } = context.query;
 
   const movie = await axios.get(
-    `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}`
+    `https://api.themoviedb.org/3/movie/${id}?api_key=${API_KEY}&append_to_response=videos`
   );
   const x = movie?.data;
   return {

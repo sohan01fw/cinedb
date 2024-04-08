@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   BookmarkIcon,
   HeartIcon,
@@ -9,13 +9,21 @@ import {
   PlayIcon,
   StarIcon,
 } from "@heroicons/react/24/outline";
+import Trailer from "./youtube/Trailer";
+import YouTube from "react-youtube";
 
 const MoviesDetails = ({ data }) => {
   console.log(data);
   const router = useRouter();
   const { pathname } = router;
-
+  const [key, setKey] = useState(null);
   const BASE_URL = "https://image.tmdb.org/t/p/w300_and_h450_face/";
+  const TrailerURL = "https://www.youtube.com/watch?v=";
+
+  const playTrailer = () => {
+    let key = data.videos.results[0].key;
+    setKey(key);
+  };
   return (
     <div className=" mt-10 h-[27rem] w-full flex justify-center pt-14 md:pt-8 ">
       <div className="  w-[12rem] md:w-[15rem] h-[18rem] md:h-[22.5rem] mr-3  ">
@@ -31,7 +39,7 @@ const MoviesDetails = ({ data }) => {
           priority
         />
       </div>
-      <div className=" overflow-scroll  md:w-[59rem] md:h-[23rem]  h-[18rem] p-1 ">
+      <div className=" overflow-scroll  md:w-[59rem] md:h-[24rem]  h-[18rem] p-1 ">
         <div className="title flex ">
           <h1 className="font-bold text-xl md:text-3xl">
             {data.original_title}
@@ -110,7 +118,12 @@ const MoviesDetails = ({ data }) => {
               </svg>
             </div>
           </div>
-          <div className=" flex hover:cursor-pointer mt-[-2px]  ">
+          <div
+            onClick={() => {
+              document.getElementById("my_modal_1").showModal(), playTrailer();
+            }}
+            className=" flex hover:cursor-pointer mt-[-2px]  "
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -136,13 +149,31 @@ const MoviesDetails = ({ data }) => {
             </h4>
           </div>
         </div>
+        <div>
+          <dialog id="my_modal_1" className="modal">
+            <div className="modal-box  max-w-[44rem]">
+              <h3 className="font-bold text-lg bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% text-transparent bg-clip-text">
+                Trailer
+              </h3>
+              <p className="py-4">{key ? <YouTube videoId={key} /> : null}</p>
+              <div className="modal-action">
+                <form method="dialog">
+                  {/* if there is a button, it will close the modal */}
+                  <button className="btn hover:bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% hover:text-transparent hover:bg-clip-text">
+                    Close
+                  </button>
+                </form>
+              </div>
+            </div>
+          </dialog>
+        </div>
         <div className="desc  mt-5">
           <div className="">
             <h2 className="text-gray-500 font-bold italic">{data.tagline}</h2>
           </div>
           <div className="  flex flex-col flex-grow  break-words ">
             <h1 className=" font-bold text-xl ">Overview</h1>
-            <p className=" overview  overflow-scroll w-60 md:w-full ">
+            <p className=" overview  overflow-scroll w-60 md:w-full">
               {data.overview}
             </p>
           </div>
@@ -150,12 +181,6 @@ const MoviesDetails = ({ data }) => {
         <div className="flex justify-between mt-3 md:mt-10">
           <div className="font-bold hover:cursor-pointer text-gray-400 hover:bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% hover:text-transparent hover:bg-clip-text">
             status<h3>{data.status}</h3>
-          </div>
-          <div className="font-bold hover:cursor-pointer text-gray-400 hover:bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% hover:text-transparent hover:bg-clip-text">
-            Budget<h3>${data.budget}</h3>
-          </div>
-          <div className="font-bold hover:cursor-pointer text-gray-400 hover:bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% hover:text-transparent hover:bg-clip-text">
-            Revenue<h3>${data.revenue}</h3>
           </div>
         </div>
       </div>
