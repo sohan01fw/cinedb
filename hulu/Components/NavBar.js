@@ -5,11 +5,11 @@ const NavBar = () => {
   return (
     <nav className="relative sm:mt-[-20px] ">
       <div className=" flex whitespace-nowrap overflow-x-scroll scrollbar-hide">
-        {Object.entries(requests).map(([key, { title }]) => {
+        {Object.entries(requests).map(([key, { title, genreId }]) => {
           return (
             <h2
               onClick={() => {
-                router.push(`/?genre=${title}`);
+                router.push(`/?genre=${title}-${genreId}`);
               }}
               className="transition duration-100 transform text-xl  hover:scale-110 hover:bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% hover:text-transparent hover:bg-clip-text hover:animate-pulse px-5 last:px-4 sm:px-10 md:px-14 cursor-pointer p-2 font-medium"
               key={key}

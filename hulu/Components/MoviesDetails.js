@@ -1,20 +1,46 @@
+import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import YouTube from "react-youtube";
 
-const MoviesDetails = ({ data }) => {
-  console.log(data);
+const MoviesDetails = ({ datas }) => {
   const router = useRouter();
+  const ref = useRef();
   const { pathname } = router;
-  const [key, setKey] = useState(null);
   const BASE_URL = "https://image.tmdb.org/t/p/w300_and_h450_face/";
   const TrailerURL = "https://www.youtube.com/watch?v=";
 
-  const playTrailer = () => {
-    let key = data.videos.results[0].key;
-    setKey(key);
+  const { isPending, isError, data, error } = useQuery({
+    queryKey: ["trailer-key"],
+    queryFn: async () => {
+      // Simulate a delay of 2 seconds
+      let key = new Promise((resolve, reject) => {
+        for (let element of datas.videos.results) {
+          if (element.type === "Trailer") {
+            return resolve(element.key);
+          }
+        }
+        reject(new Error("NO trailer found"));
+      });
+      const result = await key;
+      return result;
+    },
+  });
+
+  const onReady = (event) => {
+    console.log("YouTube player is ready");
+    ref.current = event.target;
+  };
+
+  const onClose = () => {
+    if (ref.current) {
+      console.log("Pausing video");
+      ref.current.stopVideo();
+    } else {
+      console.log("YouTube player is not ready yet");
+    }
   };
   return (
     <div className=" mt-10 h-[27rem] w-full flex justify-center pt-14 md:pt-8 ">
@@ -24,8 +50,8 @@ const MoviesDetails = ({ data }) => {
           className="object-contain"
           alt="image"
           src={
-            `${BASE_URL}${data.backdrop_path || data.poster_path}` ||
-            `${data.poster_path}`
+            `${BASE_URL}${datas.backdrop_path || datas.poster_path}` ||
+            `${datas.poster_path}`
           }
           height={450} // Increase the height
           width={300} // Decrease the width
@@ -35,25 +61,25 @@ const MoviesDetails = ({ data }) => {
       <div className=" overflow-scroll  md:w-[59rem] md:h-[24rem]  h-[18rem] p-1 ">
         <div className="title flex ">
           <h1 className="font-bold text-xl md:text-3xl">
-            {data.original_title}
+            {datas.original_title}
           </h1>
           <div className=" font-semibold mt-[-13px] pl-1">
             <p className=" mt-3 font-bold text-xl text-gray-400">
-              ({data.release_date.slice(0, 4)})
+              ({datas.release_date.slice(0, 4)})
             </p>
           </div>
         </div>
         <div className=" desc_genre  flex text-sm text-gray-400">
           <div className="whitespace-nowrap   flex ">
-            {data?.genres.map((genre, index) => (
+            {datas?.genres.map((genre, index) => (
               <div key={index} className="font-semibold">
                 {genre.name}
-                {index !== data.genres.length - 1 && ","}
+                {index !== datas.genres.length - 1 && ","}
                 {/* Add a comma if not the last item */}
               </div>
             ))}
           </div>
-          <h2 className="font-semibold text-sm">({data.runtime}min)</h2>
+          <h2 className="font-semibold text-sm">({datas.runtime}min)</h2>
         </div>
         <div>
           <div className=" flex font-semibold">
@@ -73,7 +99,7 @@ const MoviesDetails = ({ data }) => {
                 />
               </svg>
             </h1>
-            <p className="font-bold ">({data.vote_average.toFixed(1)})/10</p>
+            <p className="font-bold ">({datas.vote_average.toFixed(1)})/10</p>
           </div>
         </div>
         <div className="mt-3 flex justify-between w-44 ml-2">
@@ -113,7 +139,7 @@ const MoviesDetails = ({ data }) => {
           </div>
           <div
             onClick={() => {
-              document.getElementById("my_modal_1").showModal(), playTrailer();
+              document.getElementById("my_modal_1").showModal();
             }}
             className=" flex hover:cursor-pointer mt-[-2px]  "
           >
@@ -148,11 +174,20 @@ const MoviesDetails = ({ data }) => {
               <h3 className="font-bold text-lg bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% text-transparent bg-clip-text">
                 Trailer
               </h3>
-              <p className="py-4">{key ? <YouTube videoId={key} /> : null}</p>
+              <p className="py-4">
+                {isPending ? (
+                  <div>loading...</div>
+                ) : (
+                  <YouTube videoId={data} onReady={onReady} />
+                )}
+              </p>
               <div className="modal-action">
                 <form method="dialog">
                   {/* if there is a button, it will close the modal */}
-                  <button className="btn hover:bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% hover:text-transparent hover:bg-clip-text">
+                  <button
+                    onClick={onClose}
+                    className="btn hover:bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% hover:text-transparent hover:bg-clip-text"
+                  >
                     Close
                   </button>
                 </form>
@@ -162,18 +197,18 @@ const MoviesDetails = ({ data }) => {
         </div>
         <div className="desc  mt-5">
           <div className="">
-            <h2 className="text-gray-500 font-bold italic">{data.tagline}</h2>
+            <h2 className="text-gray-500 font-bold italic">{datas.tagline}</h2>
           </div>
           <div className="  flex flex-col flex-grow  break-words ">
             <h1 className=" font-bold text-xl ">Overview</h1>
             <p className=" overview  overflow-scroll w-60 md:w-full">
-              {data.overview}
+              {datas.overview}
             </p>
           </div>
         </div>
         <div className="flex justify-between mt-3 md:mt-10">
           <div className="font-bold hover:cursor-pointer text-gray-400 hover:bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% hover:text-transparent hover:bg-clip-text">
-            status<h3>{data.status}</h3>
+            status<h3>{datas.status}</h3>
           </div>
         </div>
       </div>

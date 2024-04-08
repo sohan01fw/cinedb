@@ -33,12 +33,27 @@ export default function Home({ resData }) {
   );
 }
 
-export async function getServerSideProps(params) {
-  const x = await axios.get(
-    `https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY}`
-  );
+export async function getServerSideProps(context) {
+  const xs = context.query.genre;
+  if (xs) {
+    const y = xs.split("-");
+    const z = y[y.length - 1];
+    const nz = parseInt(z);
 
-  return {
-    props: { resData: x.data },
-  };
+    const result = await axios.get(
+      `https://api.themoviedb.org/3/discover/movie?api_key=${API_KEY}&with_genres=${z}`
+    );
+
+    return {
+      props: { resData: result.data },
+    };
+  } else {
+    const x = await axios.get(
+      `https://api.themoviedb.org/3/trending/movie/week?api_key=${API_KEY}`
+    );
+
+    return {
+      props: { resData: x.data },
+    };
+  }
 }

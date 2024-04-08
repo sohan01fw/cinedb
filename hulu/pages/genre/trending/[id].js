@@ -17,7 +17,7 @@ const Page = ({ movieData }) => {
   return (
     <>
       <Header />
-      {isPending ? <div>Loading...</div> : <MoviesDetails data={data} />}
+      {isPending ? <div>Loading...</div> : <MoviesDetails datas={data} />}
     </>
   );
 };

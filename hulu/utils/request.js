@@ -1,13 +1,5 @@
 export const API_KEY = process.env.NEXT_PUBLIC_TmDB_KEY;
 const requests = {
-  Trending: {
-    title: "Trending",
-    url: `/trending/all/week?api_key=${API_KEY}&language=en-US`,
-  },
-  TopRated: {
-    title: "Top Rated",
-    url: `/movie/top_rated?api_key=${API_KEY}&language=en-US`,
-  },
   Action: {
     title: "Action",
     genreId: "28",
